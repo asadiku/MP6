@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_compare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.895" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/background_bush"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:adjustViewBounds="true"
@@ -36,7 +36,7 @@
         app:srcCompat="@drawable/bush" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_player1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -49,14 +49,14 @@
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/text_player2"
         app:layout_constraintHorizontal_bias="0.38"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.672" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/text_player2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -72,7 +72,7 @@
         app:layout_constraintVertical_bias="0.677" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/text_fortnite"
         android:layout_width="205dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -87,7 +87,7 @@
         app:srcCompat="@drawable/fortnitelogo" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/text_finder"
         android:layout_width="162dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
@@ -97,7 +97,25 @@
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/text_fortnite"
         app:srcCompat="@drawable/finder" />
+
+    <EditText
+        android:id="@+id/textbox_console"
+        android:layout_width="181dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="Enter Your Console"
+        android:inputType="text"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/text_player2"
+        app:layout_constraintStart_toEndOf="@+id/text_player1"
+        app:layout_constraintTop_toBottomOf="@+id/text_finder" />
 
 </android.support.constraint.ConstraintLayout>
