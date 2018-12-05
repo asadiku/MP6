@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static final String EXTRA_MESSAGE2 = "com.example.myfirstapp.MESSAGE";
     /** Default logging tag for messages from the main activity. */
     private static final String TAG = "MP6";
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 String message2 = editText2.getText().toString();
                 String message3 = editText3.getText().toString();
                 intent.putExtra(EXTRA_MESSAGE, message2);
-                intent.putExtra(EXTRA_MESSAGE, message3);
+                intent.putExtra(EXTRA_MESSAGE2, message3);
                 startActivity(intent);
             }
         });
