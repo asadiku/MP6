@@ -14,8 +14,8 @@ public class DisplayComparisonActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message1 = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        String message2 = intent.getStringExtra(MainActivity.EXTRA_MESSAGE2);
+        String message1 = intent.getStringExtra("first_name");
+        String message2 = intent.getStringExtra("second_name");
 
         // Capture the layout's TextView and set the string as its text
         TextView textView1 = findViewById(R.id.textView);
