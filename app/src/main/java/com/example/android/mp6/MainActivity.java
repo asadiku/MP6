@@ -10,6 +10,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import org.json.JSONObject;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 public class MainActivity extends AppCompatActivity {
     /** Default logging tag for messages from the main activity. */
     private static final String TAG = "MP6";
@@ -29,6 +35,24 @@ public class MainActivity extends AppCompatActivity {
                 String message3 = editText3.getText().toString();
                 intent.putExtra("first_name", message2);
                 intent.putExtra("second_name", message3);
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.GET,
+                        "",
+                        null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(final JSONObject response) {
+                                Log.d(TAG, response.toString());
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+                        Log.w(TAG, error.toString());
+                    }
+                });
+
+
                 startActivity(intent);
             }
         });
