@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
 
+    String message2;
+    String message3;
+    String message1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
                 EditText editText2 = (EditText) findViewById(R.id.editText2);
                 EditText editText3 = (EditText) findViewById(R.id.editText3);
                 EditText textbox_console = (EditText) findViewById(R.id.textbox_console);
-                String message2 = editText2.getText().toString();
-                String message3 = editText3.getText().toString();
-                String message1 = textbox_console.getText().toString().toLowerCase();
+                message2 = editText2.getText().toString().toLowerCase();
+                message3 = editText3.getText().toString().toLowerCase();
+                message1 = textbox_console.getText().toString().toLowerCase();
 
 
                 intent.putExtra("first_name", message2);
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://api.fortnitetracker.com/v1/profile/pc/ninja",
+                    "https://api.fortnitetracker.com/v1/profile/" + message1 + "/" + message2,
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
