@@ -20,6 +20,7 @@ public class DisplayComparisonActivity extends AppCompatActivity {
         // Capture the layout's TextView and set the string as its text
         TextView textView1 = findViewById(R.id.textView);
         TextView textView2 = findViewById(R.id.textView2);
+        TextView textView3 = findViewById(R.id.textView3);
         textView1.setText(message1);
         textView2.setText(message2);
     }
