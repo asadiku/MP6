@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
@@ -26,6 +29,9 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     /** Default logging tag for messages from the main activity. */
     private static final String TAG = "MP6";
+
+    String[] outputArray1 = new String[5];
+    String[] outputArray2 = new String[5];
 
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
@@ -47,8 +53,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Attach the handler to our UI button
         final Button compare = findViewById(R.id.button_compare);
+
         compare.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                startAPICall1();
+                startAPICall2();
+
+                if (outputArray1 == null) {
+                    Log.d(TAG, "why is this nullll??? #2");
+                }
                 Intent intent = new Intent(v.getContext(), DisplayComparisonActivity.class);
                 EditText editText2 = (EditText) findViewById(R.id.editText2);
                 EditText editText3 = (EditText) findViewById(R.id.editText3);
@@ -58,14 +71,22 @@ public class MainActivity extends AppCompatActivity {
                 console = textbox_console.getText().toString().toLowerCase(); // console must be "pc", "xbl", or "psn"
 
 
-                intent.putExtra("first_name", first_name);
-                intent.putExtra("second_name", second_name);
-                intent.putExtra("console", console);
+                intent.putExtra("first_name", editText2.getText().toString());
+                intent.putExtra("second_name", editText3.getText().toString());
+                intent.putExtra("console", textbox_console.getText().toString());
+                intent.putExtra("p1_array", outputArray1);
+                intent.putExtra("p2_array", outputArray2);
 
 
                 Log.d(TAG, "Compare button clicked");
+<<<<<<< Updated upstream
                 startAPICall();
                 startAPICall2();
+=======
+
+
+
+>>>>>>> Stashed changes
                 startActivity(intent);
             }
         });
@@ -74,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Make an API call.
      */
-    void startAPICall() {
+    void startAPICall1() {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
@@ -83,7 +104,30 @@ public class MainActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(final JSONObject response) {
-                            Log.d(TAG, response.toString());
+                            try {
+                                Log.d(TAG, response.toString(4));
+                                JSONObject statsObject = response.getJSONObject("stats");
+                                JSONObject p2Object = statsObject.getJSONObject("p2");
+                                JSONObject kdObject = p2Object.getJSONObject("kd");
+                                JSONObject winRatioObject = p2Object.getJSONObject("winRatio");
+                                JSONObject winsObject = p2Object.getJSONObject("top1");
+                                JSONObject matchesObject = p2Object.getJSONObject("matches");
+                                JSONObject killsObject = p2Object.getJSONObject("kills");
+                                String kdRatio = kdObject.getString("value");
+                                String winRatio = winRatioObject.getString("value");
+                                String totalKills = killsObject.getString("value");
+                                String totalWins = winsObject.getString("value");
+                                String totalMatches = matchesObject.getString("value");
+                                outputArray1 = new String[] {kdRatio, winRatio, totalKills, totalWins, totalWins, totalMatches};
+
+                                if (outputArray1 == null) {
+                                    Log.d(TAG, "why is this nullll???");
+                                }
+
+
+                            } catch (JSONException e) {
+                                Log.d(TAG, "Json broke");
+                            }
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -103,7 +147,60 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * Make an API call.
+     */
+    void startAPICall2() {
+        try {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.GET,
+                    "https://api.fortnitetracker.com/v1/profile/" + console + "/" + second_name,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(final JSONObject response) {
+                            try {
+                                Log.d(TAG, response.toString(4));
+                                JSONObject statsObject = response.getJSONObject("stats");
+                                JSONObject p2Object = statsObject.getJSONObject("p2");
+                                JSONObject kdObject = p2Object.getJSONObject("kd");
+                                JSONObject winRatioObject = p2Object.getJSONObject("winRatio");
+                                JSONObject winsObject = p2Object.getJSONObject("top1");
+                                JSONObject matchesObject = p2Object.getJSONObject("matches");
+                                JSONObject killsObject = p2Object.getJSONObject("kills");
+                                String kdRatio = kdObject.getString("value");
+                                String winRatio = winRatioObject.getString("value");
+                                String totalKills = killsObject.getString("value");
+                                String totalWins = winsObject.getString("value");
+                                String totalMatches = matchesObject.getString("value");
+                                String[] returnArray = {kdRatio, winRatio, totalKills, totalWins, totalWins, totalMatches};
+                                outputArray2 = returnArray;
+
+
+                            } catch (JSONException e) {
+                                Log.d(TAG, "Json broke");
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    Log.w(TAG, "There was an error in your request");
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("TRN-Api-Key", "e7aae4fa-c500-4948-9fec-2d8f179f6b74");
+                    Log.d(TAG, params.toString());
+                    return params;
+                }
+            };
+            requestQueue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     void startAPICall2() {
         final Handler handler = new Handler();
