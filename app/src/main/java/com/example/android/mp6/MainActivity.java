@@ -7,18 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
@@ -31,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
 
-    String message2;
-    String message3;
-    String message1;
+    String first_name;
+    String second_name;
+    String console;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 EditText editText2 = (EditText) findViewById(R.id.editText2);
                 EditText editText3 = (EditText) findViewById(R.id.editText3);
                 EditText textbox_console = (EditText) findViewById(R.id.textbox_console);
-                message2 = editText2.getText().toString().toLowerCase();
-                message3 = editText3.getText().toString().toLowerCase();
-                message1 = textbox_console.getText().toString().toLowerCase();
+                first_name = editText2.getText().toString().toLowerCase();
+                second_name = editText3.getText().toString().toLowerCase();
+                console = textbox_console.getText().toString().toLowerCase(); // console must be "pc", "xbl", or "psn"
 
 
-                intent.putExtra("first_name", message2);
-                intent.putExtra("second_name", message3);
-                intent.putExtra("console", message1);
+                intent.putExtra("first_name", first_name);
+                intent.putExtra("second_name", second_name);
+                intent.putExtra("console", console);
 
 
                 Log.d(TAG, "Compare button clicked");
@@ -78,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://api.fortnitetracker.com/v1/profile/" + message1 + "/" + message2,
+                    "https://api.fortnitetracker.com/v1/profile/" + console + "/" + first_name,
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -88,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
-                    Log.w(TAG, error.toString());
+                    Log.w(TAG, "There was an error in your request");
                 }
             }) {
                 @Override

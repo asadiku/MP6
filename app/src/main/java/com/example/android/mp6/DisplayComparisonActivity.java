@@ -14,14 +14,17 @@ public class DisplayComparisonActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message1 = intent.getStringExtra("first_name");
-        String message2 = intent.getStringExtra("second_name");
+        String first_name = intent.getStringExtra("first_name");
+        String second_name = intent.getStringExtra("second_name");
 
         // Capture the layout's TextView and set the string as its text
         TextView textView1 = findViewById(R.id.textView);
         TextView textView2 = findViewById(R.id.textView2);
         TextView textView3 = findViewById(R.id.textView3);
-        textView1.setText(message1);
-        textView2.setText(message2);
+        TextView textView4 = findViewById(R.id.textView4);
+
+
+        textView1.setText(first_name);
+        textView2.setText(second_name);
     }
 }
