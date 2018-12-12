@@ -64,6 +64,7 @@ public class DisplayComparisonActivity extends AppCompatActivity {
         Log.d(TAG, "Player 2 totalWins " + totalWins2);
         Log.d(TAG, "Player 2 totalMatches " + totalMatches2);
 
-        textView3.setText("k/d ratio: " + kdRatio);
+        textView3.setText("k/d ratio:     " + kdRatio + "\n \ntotal kills:     " + totalKills + "\n \nwin ratio:     " + winRatio + "\n \ntotal wins:     " + totalWins + "\n \ntotal matches:  " + totalMatches);
+        textView4.setText("k/d ratio:     " + kdRatio2 + "\n \ntotal kills:     " + totalKills2 + "\n \nwin ratio:     " + winRatio2 + "\n \ntotal wins:     " + totalWins2 + "\n \ntotal matches:  " + totalMatches2);
     }
 }

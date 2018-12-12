@@ -87,13 +87,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Compare button clicked");
                 startAPICall1();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 startAPICall2();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
