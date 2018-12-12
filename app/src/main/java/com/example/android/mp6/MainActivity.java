@@ -1,9 +1,11 @@
 package com.example.android.mp6;
 
-
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.content.Intent;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,16 +31,20 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     /** Default logging tag for messages from the main activity. */
     private static final String TAG = "MP6";
+    public static final String PREFS_NAME = "MyPrefsFile";
 
-    String[] outputArray1 = new String[5];
-    String[] outputArray2 = new String[5];
+    public String[] outputArray1 = new String[5];
+    public String[] outputArray2 = new String[5];
 
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
 
-    String first_name;
-    String second_name;
-    String console;
+    public String first_name;
+    public String second_name;
+    public String console;
+
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         compare.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startAPICall1();
-                startAPICall2();
+                //startAPICall1();
+                //startAPICall2();
 
                 if (outputArray1 == null) {
                     Log.d(TAG, "why is this nullll??? #2");
@@ -79,14 +85,18 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Log.d(TAG, "Compare button clicked");
-<<<<<<< Updated upstream
-                startAPICall();
+                startAPICall1();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 startAPICall2();
-=======
-
-
-
->>>>>>> Stashed changes
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 startActivity(intent);
             }
         });
@@ -105,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject response) {
                             try {
-                                Log.d(TAG, response.toString(4));
+                                //Log.d(TAG, response.toString(4));
                                 JSONObject statsObject = response.getJSONObject("stats");
                                 JSONObject p2Object = statsObject.getJSONObject("p2");
                                 JSONObject kdObject = p2Object.getJSONObject("kd");
@@ -119,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
                                 String totalWins = winsObject.getString("value");
                                 String totalMatches = matchesObject.getString("value");
                                 outputArray1 = new String[] {kdRatio, winRatio, totalKills, totalWins, totalWins, totalMatches};
+
+                                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                                editor.putString("kdRatio", kdRatio);
+                                editor.putString("winRatio", winRatio);
+                                editor.putString("totalKills", totalKills);
+                                editor.putString("totalWins", totalWins);
+                                editor.putString("totalMatches", totalMatches);
+                                editor.apply();
 
                                 if (outputArray1 == null) {
                                     Log.d(TAG, "why is this nullll???");
@@ -162,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(final JSONObject response) {
                             try {
-                                Log.d(TAG, response.toString(4));
+                                //Log.d(TAG, response.toString(4));
                                 JSONObject statsObject = response.getJSONObject("stats");
                                 JSONObject p2Object = statsObject.getJSONObject("p2");
                                 JSONObject kdObject = p2Object.getJSONObject("kd");
@@ -177,6 +195,14 @@ public class MainActivity extends AppCompatActivity {
                                 String totalMatches = matchesObject.getString("value");
                                 String[] returnArray = {kdRatio, winRatio, totalKills, totalWins, totalWins, totalMatches};
                                 outputArray2 = returnArray;
+
+                                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                                editor.putString("kdRatio2", kdRatio);
+                                editor.putString("winRatio2", winRatio);
+                                editor.putString("totalKills2", totalKills);
+                                editor.putString("totalWins2", totalWins);
+                                editor.putString("totalMatches2", totalMatches);
+                                editor.apply();
 
 
                             } catch (JSONException e) {
@@ -201,41 +227,5 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    void startAPICall2() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                            Request.Method.GET,
-                            "https://api.fortnitetracker.com/v1/profile/" + console + "/" + second_name,
-                            null,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(final JSONObject response) {
-                                    Log.d(TAG, response.toString());
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(final VolleyError error) {
-                            Log.w(TAG, "There was an error in your request");
-                        }
-                    }) {
-                        @Override
-                        public Map<String, String> getHeaders() {
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put("TRN-Api-Key", "e7aae4fa-c500-4948-9fec-2d8f179f6b74");
-                            Log.d(TAG, params.toString());
-                            return params;
-                        }
-                    };
-                    requestQueue.add(jsonObjectRequest);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 2000);
     }
 }

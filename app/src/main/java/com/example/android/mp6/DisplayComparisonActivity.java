@@ -1,10 +1,14 @@
 package com.example.android.mp6;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import static com.example.android.mp6.MainActivity.MY_PREFS_NAME;
 
 public class DisplayComparisonActivity extends AppCompatActivity {
     private static final String TAG = "MP6";
@@ -34,8 +38,32 @@ public class DisplayComparisonActivity extends AppCompatActivity {
         if (p1_array == null) {
             Log.d(TAG, "ITS NULLLLLLLLLLLLLLL");
         }
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String kdRatio = prefs.getString("kdRatio", null);
+        String winRatio = prefs.getString("winRatio", null);
+        String totalKills = prefs.getString("totalKills", null);
+        String totalWins = prefs.getString("totalWins", null);
+        String totalMatches = prefs.getString("totalMatches", null);
 
-        Log.d(TAG, p1_array[0]);
-        Log.d(TAG, p2_array[0]);
+
+        String kdRatio2 = prefs.getString("kdRatio2", null);
+        String winRatio2 = prefs.getString("winRatio2", null);
+        String totalKills2 = prefs.getString("totalKills2", null);
+        String totalWins2 = prefs.getString("totalWins2", null);
+        String totalMatches2 = prefs.getString("totalMatches2", null);
+
+        Log.d(TAG, "Player 1 kdRatio " + kdRatio);
+        Log.d(TAG, "Player 1 winRatio " + winRatio);
+        Log.d(TAG, "Player 1 totalKills " + totalKills);
+        Log.d(TAG, "Player 1 totalWins " + totalWins);
+        Log.d(TAG, "Player 1 totalMatches " + totalMatches);
+
+        Log.d(TAG, "Player 2 kdRatio  " + kdRatio2);
+        Log.d(TAG, "Player 2 winRatio " + winRatio2);
+        Log.d(TAG, "Player 2 totalKills " + totalKills2);
+        Log.d(TAG, "Player 2 totalWins " + totalWins2);
+        Log.d(TAG, "Player 2 totalMatches " + totalMatches2);
+
+        textView3.setText("k/d ratio: " + kdRatio);
     }
 }
