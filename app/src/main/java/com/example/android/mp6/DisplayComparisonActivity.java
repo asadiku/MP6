@@ -22,8 +22,8 @@ public class DisplayComparisonActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String first_name = intent.getStringExtra("first_name");
         String second_name = intent.getStringExtra("second_name");
-        String[] p1_array = intent.getStringArrayExtra("p1_array");
-        String[] p2_array = intent.getStringArrayExtra("p2_array");
+        //String[] p1_array = intent.getStringArrayExtra("p1_array");
+        //String[] p2_array = intent.getStringArrayExtra("p2_array");
 
         // Capture the layout's TextView and set the string as its text
         TextView textView1 = findViewById(R.id.textView);
@@ -35,9 +35,7 @@ public class DisplayComparisonActivity extends AppCompatActivity {
         textView1.setText(first_name);
         textView2.setText(second_name);
 
-        if (p1_array == null) {
-            Log.d(TAG, "ITS NULLLLLLLLLLLLLLL");
-        }
+
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String kdRatio = prefs.getString("kdRatio", null);
         String winRatio = prefs.getString("winRatio", null);
@@ -52,6 +50,7 @@ public class DisplayComparisonActivity extends AppCompatActivity {
         String totalWins2 = prefs.getString("totalWins2", null);
         String totalMatches2 = prefs.getString("totalMatches2", null);
 
+        /**
         Log.d(TAG, "Player 1 kdRatio " + kdRatio);
         Log.d(TAG, "Player 1 winRatio " + winRatio);
         Log.d(TAG, "Player 1 totalKills " + totalKills);
@@ -63,6 +62,7 @@ public class DisplayComparisonActivity extends AppCompatActivity {
         Log.d(TAG, "Player 2 totalKills " + totalKills2);
         Log.d(TAG, "Player 2 totalWins " + totalWins2);
         Log.d(TAG, "Player 2 totalMatches " + totalMatches2);
+         **/
 
         textView3.setText("k/d ratio:     " + kdRatio + "\n \ntotal kills:     " + totalKills + "\n \nwin ratio:     " + winRatio + "\n \ntotal wins:     " + totalWins + "\n \ntotal matches:  " + totalMatches);
         textView4.setText("k/d ratio:     " + kdRatio2 + "\n \ntotal kills:     " + totalKills2 + "\n \nwin ratio:     " + winRatio2 + "\n \ntotal wins:     " + totalWins2 + "\n \ntotal matches:  " + totalMatches2);

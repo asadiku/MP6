@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MP6";
     public static final String PREFS_NAME = "MyPrefsFile";
 
-    public String[] outputArray1 = new String[5];
-    public String[] outputArray2 = new String[5];
+    //public String[] outputArray1 = new String[5];
+    //public String[] outputArray2 = new String[5];
 
     /** Request queue for our network requests. */
     private static RequestQueue requestQueue;
@@ -45,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
 
         // Set up a queue for our Volley requests
         requestQueue = Volley.newRequestQueue(this);
@@ -65,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 //startAPICall1();
                 //startAPICall2();
 
-                if (outputArray1 == null) {
-                    Log.d(TAG, "why is this nullll??? #2");
-                }
                 Intent intent = new Intent(v.getContext(), DisplayComparisonActivity.class);
                 EditText editText2 = (EditText) findViewById(R.id.editText2);
                 EditText editText3 = (EditText) findViewById(R.id.editText3);
@@ -80,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("first_name", editText2.getText().toString());
                 intent.putExtra("second_name", editText3.getText().toString());
                 intent.putExtra("console", textbox_console.getText().toString());
-                intent.putExtra("p1_array", outputArray1);
-                intent.putExtra("p2_array", outputArray2);
 
 
                 Log.d(TAG, "Compare button clicked");
@@ -128,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                                 String totalKills = killsObject.getString("value");
                                 String totalWins = winsObject.getString("value");
                                 String totalMatches = matchesObject.getString("value");
-                                outputArray1 = new String[] {kdRatio, winRatio, totalKills, totalWins, totalWins, totalMatches};
 
                                 SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                                 editor.putString("kdRatio", kdRatio);
@@ -138,19 +132,19 @@ public class MainActivity extends AppCompatActivity {
                                 editor.putString("totalMatches", totalMatches);
                                 editor.apply();
 
-                                if (outputArray1 == null) {
-                                    Log.d(TAG, "why is this nullll???");
-                                }
-
 
                             } catch (JSONException e) {
                                 Log.d(TAG, "Json broke");
+                                Toast.makeText(getBaseContext(), "Incorrect console for selected players.",
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
                     Log.w(TAG, "There was an error in your request");
+                    Toast.makeText(getBaseContext(), "Invalid Player Names. Please Try Again.",
+                            Toast.LENGTH_LONG).show();
                 }
             }) {
                 @Override
@@ -193,8 +187,6 @@ public class MainActivity extends AppCompatActivity {
                                 String totalKills = killsObject.getString("value");
                                 String totalWins = winsObject.getString("value");
                                 String totalMatches = matchesObject.getString("value");
-                                String[] returnArray = {kdRatio, winRatio, totalKills, totalWins, totalWins, totalMatches};
-                                outputArray2 = returnArray;
 
                                 SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                                 editor.putString("kdRatio2", kdRatio);
@@ -207,12 +199,16 @@ public class MainActivity extends AppCompatActivity {
 
                             } catch (JSONException e) {
                                 Log.d(TAG, "Json broke");
+                                Toast.makeText(getBaseContext(), "Incorrect console for selected players.",
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
                     Log.w(TAG, "There was an error in your request");
+                    Toast.makeText(getBaseContext(), "Invalid Player Names. Please Try Again.",
+                            Toast.LENGTH_LONG).show();
                 }
             }) {
                 @Override
